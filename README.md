@@ -25,6 +25,5 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Who do I talk to? ###
 
-* Repo owner or admin 
-Andrés Kwan
+* Repo owner or admin - Andrés Kwan
 * Other community or team contact
