@@ -96,6 +96,10 @@ class ViewController: UIViewController {
         }
     }
     
+    private func bboxString() -> String {
+        return ""
+    }
+    
     // MARK: Flickr API
     
     private func displayImageFromFlickrBySearch(methodParameters: [String:AnyObject]) {
