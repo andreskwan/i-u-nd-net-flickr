@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     // MARK: Properties
     
     var keyboardOnScreen = false
-    
+    let viewModel = FlicFinderLandingViewModel()
     // MARK: Outlets
     
     @IBOutlet weak var photoImageView: UIImageView!
@@ -27,6 +27,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var longitudeTextField: UITextField!
     @IBOutlet weak var latLonSearchButton: UIButton!
     
+    // MARK: Reactive - Bindings
+    func bindViewModel() {
+        viewModel.latitudeText.bindTo(latitudeTextField.rText)
+        latitudeTextField.rText.bindTo(viewModel.latitudeText)
+    }
     // MARK: Life Cycle
     
     override func viewDidLoad() {
@@ -39,6 +44,7 @@ class ViewController: UIViewController {
         subscribeToNotification(UIKeyboardWillHideNotification, selector: #selector(keyboardWillHide))
         subscribeToNotification(UIKeyboardDidShowNotification, selector: #selector(keyboardDidShow))
         subscribeToNotification(UIKeyboardDidHideNotification, selector: #selector(keyboardDidHide))
+        bindViewModel()
     }
     
     override func viewWillDisappear(animated: Bool) {
