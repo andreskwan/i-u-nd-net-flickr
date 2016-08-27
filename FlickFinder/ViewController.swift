@@ -33,6 +33,21 @@ class ViewController: UIViewController {
     func bindViewModel() {
         viewModel.latitudeText.bindTo(latitudeTextField.rText)
         latitudeTextField.rText.bindTo(viewModel.latitudeText)
+        validateLatitude()
+    }
+    
+    func validateLatitude(){
+        let colorValidation = viewModel.isValidLatitude
+            .map{(isValid: Bool) -> UIColor in
+                return isValid ? UIColor.blackColor() : UIColor.redColor()}
+        
+        colorValidation.bindTo(latitudeTextField.rTextColor)
+        colorValidation.bindTo(latitudeLabel.rTextColor)
+        
+        viewModel.isValidLatitude
+            .map{(isValid: Bool) -> String in
+                return isValid ? "Latitude" : "-90 <= lat <= 90"}
+            .bindTo(latitudeLabel.rText)
     }
     // MARK: Life Cycle
     
