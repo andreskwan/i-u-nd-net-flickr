@@ -1,0 +1,16 @@
+PODS:
+  - ReactiveKit (2.1.1)
+  - ReactiveUIKit (2.0.1):
+    - ReactiveKit (~> 2.0)
+
+DEPENDENCIES:
+  - ReactiveKit
+  - ReactiveUIKit
+
+SPEC CHECKSUMS:
+  ReactiveKit: 93374d66000dc629896472541d22157d6083bf30
+  ReactiveUIKit: af6e401a61d196502267ff216b7ac6f4c37c0dc5
+
+PODFILE CHECKSUM: dd07e171104fc5d83d90bbdcef871d7d354c8480
+
+COCOAPODS: 1.0.1
