@@ -26,6 +26,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var latitudeTextField: UITextField!
     @IBOutlet weak var longitudeTextField: UITextField!
     @IBOutlet weak var latLonSearchButton: UIButton!
+    @IBOutlet weak var latitudeLabel: UILabel!
+    @IBOutlet weak var longitudeLabel: UILabel!
     
     // MARK: Reactive - Bindings
     func bindViewModel() {
@@ -55,7 +57,7 @@ class ViewController: UIViewController {
     // MARK: Search Actions
     
     @IBAction func searchByPhrase(sender: AnyObject) {
-
+        
         userDidTapView(self)
         setUIEnabled(false)
         
@@ -79,7 +81,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func searchByLatLon(sender: AnyObject) {
-
+        
         userDidTapView(self)
         setUIEnabled(false)
         
