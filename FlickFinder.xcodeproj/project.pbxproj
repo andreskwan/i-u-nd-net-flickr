@@ -15,6 +15,7 @@
 		A9A3A2121BEBB443009BE8E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9A3A2101BEBB443009BE8E1 /* LaunchScreen.storyboard */; };
 		A9A3A21A1BEBB46B009BE8E1 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3A2191BEBB46B009BE8E1 /* GCDBlackBox.swift */; };
 		A9A3A2241BEBD15B009BE8E1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3A2231BEBD15B009BE8E1 /* Constants.swift */; };
+		EA8A5C601D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8A5C5F1D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		A9A3A2131BEBB443009BE8E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9A3A2191BEBB46B009BE8E1 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		A9A3A2231BEBD15B009BE8E1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EA8A5C5F1D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickFinderLandingViewModel.swift; path = viewModel/FlickFinderLandingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				A9A3A2191BEBB46B009BE8E1 /* GCDBlackBox.swift */,
 				A9A3A21B1BEBB478009BE8E1 /* Assets */,
 				A9A3A21C1BEBB47E009BE8E1 /* Supporting Files */,
+				EA8A5C5F1D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift */,
 			);
 			path = FlickFinder;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA8A5C601D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift in Sources */,
 				A9A3A20A1BEBB443009BE8E1 /* ViewController.swift in Sources */,
 				A9A3A21A1BEBB46B009BE8E1 /* GCDBlackBox.swift in Sources */,
 				A9A3A2081BEBB443009BE8E1 /* AppDelegate.swift in Sources */,
