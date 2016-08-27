@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveUIKit
 
 // MARK: - ViewController: UIViewController
 
@@ -15,7 +16,7 @@ class ViewController: UIViewController {
     // MARK: Properties
     
     var keyboardOnScreen = false
-    
+    let viewModel = FlicFinderLandingViewModel()
     // MARK: Outlets
     
     @IBOutlet weak var photoImageView: UIImageView!
@@ -25,7 +26,29 @@ class ViewController: UIViewController {
     @IBOutlet weak var latitudeTextField: UITextField!
     @IBOutlet weak var longitudeTextField: UITextField!
     @IBOutlet weak var latLonSearchButton: UIButton!
+    @IBOutlet weak var latitudeLabel: UILabel!
+    @IBOutlet weak var longitudeLabel: UILabel!
     
+    // MARK: Reactive - Bindings
+    func bindViewModel() {
+        viewModel.latitudeText.bindTo(latitudeTextField.rText)
+        latitudeTextField.rText.bindTo(viewModel.latitudeText)
+        validateLatitude()
+    }
+    
+    func validateLatitude(){
+        let colorValidation = viewModel.isValidLatitude
+            .map{(isValid: Bool) -> UIColor in
+                return isValid ? UIColor.blackColor() : UIColor.redColor()}
+        
+        colorValidation.bindTo(latitudeTextField.rTextColor)
+        colorValidation.bindTo(latitudeLabel.rTextColor)
+        
+        viewModel.isValidLatitude
+            .map{(isValid: Bool) -> String in
+                return isValid ? "Latitude" : "-90 <= lat <= 90"}
+            .bindTo(latitudeLabel.rText)
+    }
     // MARK: Life Cycle
     
     override func viewDidLoad() {
@@ -38,6 +61,7 @@ class ViewController: UIViewController {
         subscribeToNotification(UIKeyboardWillHideNotification, selector: #selector(keyboardWillHide))
         subscribeToNotification(UIKeyboardDidShowNotification, selector: #selector(keyboardDidShow))
         subscribeToNotification(UIKeyboardDidHideNotification, selector: #selector(keyboardDidHide))
+        bindViewModel()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -48,7 +72,7 @@ class ViewController: UIViewController {
     // MARK: Search Actions
     
     @IBAction func searchByPhrase(sender: AnyObject) {
-
+        
         userDidTapView(self)
         setUIEnabled(false)
         
@@ -72,7 +96,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func searchByLatLon(sender: AnyObject) {
-
+        
         userDidTapView(self)
         setUIEnabled(false)
         
