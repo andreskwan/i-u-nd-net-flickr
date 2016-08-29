@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     func bindViewModel() {
         viewModel.latitudeText.bindTo(latitudeTextField.rText)
         latitudeTextField.rText.bindTo(viewModel.latitudeText)
+        viewModel.longitudeText.bindTo(longitudeTextField.rText)
+        longitudeTextField.rText.bindTo(viewModel.longitudeText)
         validateLatitude()
     }
     
