@@ -36,6 +36,7 @@ class ViewController: UIViewController {
         viewModel.longitudeText.bindTo(longitudeTextField.rText)
         longitudeTextField.rText.bindTo(viewModel.longitudeText)
         validateLatitude()
+        validateLong()
     }
     
     
@@ -232,7 +233,7 @@ extension ViewController: UITextFieldDelegate {
         viewModel.isValid
             .map{(isValid: Bool) -> String in
                 return isValid ? "Latitude" : "-180 <= lat <= 180"}
-            .bindTo(latitudeLabel.rText)
+            .bindTo(longitudeLabel.rText)
     }
 
 }
