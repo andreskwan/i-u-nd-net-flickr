@@ -220,6 +220,21 @@ extension ViewController: UITextFieldDelegate {
                 return isValid ? "Latitude" : "-90 <= lat <= 90"}
             .bindTo(latitudeLabel.rText)
     }
+    
+    func validateLong(){
+        let colorValidation = viewModel.isValid
+            .map{(isValid: Bool) -> UIColor in
+                return isValid ? UIColor.blackColor() : UIColor.redColor()}
+        
+        colorValidation.bindTo(longitudeTextField.rTextColor)
+        colorValidation.bindTo(longitudeLabel.rTextColor)
+        
+        viewModel.isValid
+            .map{(isValid: Bool) -> String in
+                return isValid ? "Latitude" : "-180 <= lat <= 180"}
+            .bindTo(latitudeLabel.rText)
+    }
+
 }
 
 // MARK: - ViewController (Configure UI)
