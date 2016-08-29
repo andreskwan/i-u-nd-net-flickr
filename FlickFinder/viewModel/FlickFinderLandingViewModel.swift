@@ -13,7 +13,7 @@ class FlicFinderLandingViewModel {
     let latitudeText: Observable<String?> = Observable("")
     let longitudeText: Observable<String?> = Observable("")
     let isValidLatitude = Observable<Bool>(false)
-    let isValid = Observable<Bool>(false)
+    let isValidLongitude = Observable<Bool>(false)
     
     init() {
         
@@ -21,28 +21,22 @@ class FlicFinderLandingViewModel {
          How to avoid repeting code?
          what if I need to reuse a map
          */
-        latitudeText
-            .map{ (latNumber) -> Bool in
-                guard let latNumber = latNumber where latNumber.characters.count > 0 else {
-                    return false
-                }
-                let isLowValid = Constants.Flickr.SearchLatRange.min <= Double(latNumber)
-                let isHighValid = Constants.Flickr.SearchLatRange.max >= Double(latNumber)
-                return isLowValid && isHighValid
-            }.bindTo(isValidLatitude)
+        latitudeText.observe{ (latitude) in
+            Observable(self.isValidCoordinate(latitude, interval: Constants.Flickr.SearchLatRange)).bindTo(self.isValidLatitude)
+        }
         
         longitudeText.observe{ (longitude) in
-            Observable(self.isValidCoordinate(longitude, interval: Constants.Flickr.SearchLonRange)).bindTo(self.isValid)
-        }//.disposeIn(DisposeBag)
+            Observable(self.isValidCoordinate(longitude, interval: Constants.Flickr.SearchLonRange)).bindTo(self.isValidLongitude)
+        }
     }
     
-    func isValidCoordinate(latNumber: String?, interval: (min: Double, max: Double)) -> Bool {
-        guard let latNumber = latNumber where latNumber.characters.count > 0 else {
+    func isValidCoordinate(coordinate: String?, interval: (min: Double, max: Double)) -> Bool {
+        guard let coordinate = coordinate where coordinate.characters.count > 0 else {
             return false
         }
-        print(latNumber)
-        let isLowValid = interval.min <= Double(latNumber)
-        let isHighValid = interval.max >= Double(latNumber)
+        print(coordinate)
+        let isLowValid = interval.min <= Double(coordinate)
+        let isHighValid = interval.max >= Double(coordinate)
         return isLowValid && isHighValid
     }
     
