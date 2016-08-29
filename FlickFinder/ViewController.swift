@@ -209,7 +209,7 @@ extension ViewController: UITextFieldDelegate {
     }
     
     func validateLatitude(){
-        let colorValidation = viewModel.isValidLatitude
+        let colorValidation = viewModel.isValidLatitude.skip(2)
             .map{(isValid: Bool) -> UIColor in
                 return isValid ? UIColor.blackColor() : UIColor.redColor()
             }
@@ -217,7 +217,7 @@ extension ViewController: UITextFieldDelegate {
         colorValidation.bindTo(latitudeTextField.rTextColor)
         colorValidation.bindTo(latitudeLabel.rTextColor)
         
-        viewModel.isValidLatitude
+        viewModel.isValidLatitude.skip(2)
             .map{(isValid: Bool) -> String in
                 return isValid ? "Latitude" : "-90 <= lat <= 90"
             }
@@ -225,14 +225,14 @@ extension ViewController: UITextFieldDelegate {
     }
     
     func validateLong(){
-        let colorValidation = viewModel.isValidLongitude
+        let colorValidation = viewModel.isValidLongitude.skip(2)
             .map{(isValid: Bool) -> UIColor in
                 return isValid ? UIColor.blackColor() : UIColor.redColor()}
         
         colorValidation.bindTo(longitudeTextField.rTextColor)
         colorValidation.bindTo(longitudeLabel.rTextColor)
         
-        viewModel.isValidLongitude
+        viewModel.isValidLongitude.skip(2)
             .map{(isValid: Bool) -> String in
                 return isValid ? "Latitude" : "-180 <= lat <= 180"}
             .bindTo(longitudeLabel.rText)

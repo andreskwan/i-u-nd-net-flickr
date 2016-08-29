@@ -75,13 +75,13 @@
 		A9A3A2061BEBB443009BE8E1 /* FlickFinder */ = {
 			isa = PBXGroup;
 			children = (
+				F48029841D74AA99007AA901 /* ViewModels */,
 				A9A3A2071BEBB443009BE8E1 /* AppDelegate.swift */,
 				A9A3A2091BEBB443009BE8E1 /* ViewController.swift */,
 				A9A3A2231BEBD15B009BE8E1 /* Constants.swift */,
 				A9A3A2191BEBB46B009BE8E1 /* GCDBlackBox.swift */,
 				A9A3A21B1BEBB478009BE8E1 /* Assets */,
 				A9A3A21C1BEBB47E009BE8E1 /* Supporting Files */,
-				EA8A5C5F1D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift */,
 			);
 			path = FlickFinder;
 			sourceTree = "<group>";
@@ -111,6 +111,14 @@
 				203AE4B143646233FFD52DB6 /* Pods-FlickFinder.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F48029841D74AA99007AA901 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				EA8A5C5F1D71E3A100CC1C71 /* FlickFinderLandingViewModel.swift */,
+			);
+			name = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

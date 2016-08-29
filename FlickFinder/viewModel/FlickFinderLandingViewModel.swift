@@ -21,11 +21,11 @@ class FlicFinderLandingViewModel {
          How to avoid repeting code?
          what if I need to reuse a map
          */
-        latitudeText.observe{ (latitude) in
+        latitudeText.skip(2).observe{ (latitude) in
             Observable(self.isValidCoordinate(latitude, interval: Constants.Flickr.SearchLatRange)).bindTo(self.isValidLatitude)
         }
         
-        longitudeText.observe{ (longitude) in
+        longitudeText.skip(2).observe{ (longitude) in
             Observable(self.isValidCoordinate(longitude, interval: Constants.Flickr.SearchLonRange)).bindTo(self.isValidLongitude)
         }
     }
