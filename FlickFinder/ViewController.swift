@@ -36,19 +36,7 @@ class ViewController: UIViewController {
         validateLatitude()
     }
     
-    func validateLatitude(){
-        let colorValidation = viewModel.isValidLatitude
-            .map{(isValid: Bool) -> UIColor in
-                return isValid ? UIColor.blackColor() : UIColor.redColor()}
-        
-        colorValidation.bindTo(latitudeTextField.rTextColor)
-        colorValidation.bindTo(latitudeLabel.rTextColor)
-        
-        viewModel.isValidLatitude
-            .map{(isValid: Bool) -> String in
-                return isValid ? "Latitude" : "-90 <= lat <= 90"}
-            .bindTo(latitudeLabel.rText)
-    }
+    
     // MARK: Life Cycle
     
     override func viewDidLoad() {
@@ -215,6 +203,20 @@ extension ViewController: UITextFieldDelegate {
     
     private func isValueInRange(value: Double, min: Double, max: Double) -> Bool {
         return !(value < min || value > max)
+    }
+    
+    func validateLatitude(){
+        let colorValidation = viewModel.isValidLatitude
+            .map{(isValid: Bool) -> UIColor in
+                return isValid ? UIColor.blackColor() : UIColor.redColor()}
+        
+        colorValidation.bindTo(latitudeTextField.rTextColor)
+        colorValidation.bindTo(latitudeLabel.rTextColor)
+        
+        viewModel.isValidLatitude
+            .map{(isValid: Bool) -> String in
+                return isValid ? "Latitude" : "-90 <= lat <= 90"}
+            .bindTo(latitudeLabel.rText)
     }
 }
 
