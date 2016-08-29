@@ -13,6 +13,7 @@ class FlicFinderLandingViewModel {
     let latitudeText: Observable<String?> = Observable("")
     let longitudeText: Observable<String?> = Observable("")
     let isValidLatitude = Observable<Bool>(false)
+    let isValid = Observable<Bool>(false)
     
     init() {
         
@@ -29,6 +30,20 @@ class FlicFinderLandingViewModel {
                 let isHighValid = Constants.Flickr.SearchLatRange.max >= Double(latNumber)
                 return isLowValid && isHighValid
             }.bindTo(isValidLatitude)
+        
+        longitudeText.observe{ (longitude) in
+            self.isValid = Observable(self.isValidCoordinate(longitude, interval: Constants.Flickr.SearchLonRange))
+        }//.disposeIn(DisposeBag)
     }
+    
+    func isValidCoordinate(latNumber: String?, interval: (min: Double, max: Double)) -> Bool {
+        guard let latNumber = latNumber where latNumber.characters.count > 0 else {
+            return false
+        }
+        let isLowValid = interval.min <= Double(latNumber)
+        let isHighValid = interval.max >= Double(latNumber)
+        return isLowValid && isHighValid
+    }
+    
     
 }
