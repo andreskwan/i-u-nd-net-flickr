@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveKit
 import ReactiveUIKit
 
 // MARK: - ViewController: UIViewController
@@ -209,9 +210,14 @@ extension ViewController: UITextFieldDelegate {
     }
     
     func validateField(field: Field){
-        var textField: Observable<String>
-        var color: Observable<Color>
-        var validator: Observable<Bool>
+        let textField: Observable<String?>
+        let textLabel: Observable<String?>
+        let labelColor: Observable<UIColor?>
+        let textFieldColor: Observable<UIColor?>
+        let validator: Observable<Bool>
+        let invalidLabelText: String
+        let validLabelText: String
+        
         switch field {
         case Lat:
             textField = latituteTextField.rText
