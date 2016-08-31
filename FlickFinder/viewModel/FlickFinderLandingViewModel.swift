@@ -15,6 +15,12 @@ class FlicFinderLandingViewModel {
     let isValidLatitude = Observable<Bool>(false)
     let isValidLongitude = Observable<Bool>(false)
     
+    enum Field {
+        case Lat
+        case Lon
+    }
+    var fields : [Field] = []
+    
     init() {
         
         /*

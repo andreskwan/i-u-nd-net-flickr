@@ -35,8 +35,8 @@ class ViewController: UIViewController {
         latitudeTextField.rText.bindTo(viewModel.latitudeText)
         viewModel.longitudeText.bindTo(longitudeTextField.rText)
         longitudeTextField.rText.bindTo(viewModel.longitudeText)
-        validateLatitude()
-        validateLong()
+        viewModel.fields.forEach{ validateField($0) }
+      
     }
     
     
@@ -208,20 +208,31 @@ extension ViewController: UITextFieldDelegate {
         return !(value < min || value > max)
     }
     
-    func validateLatitude(){
-        let colorValidation = viewModel.isValidLatitude.skip(2)
+    func validateField(field: Field){
+        var textField: Observable<String>
+        var color: Observable<Color>
+        var validator: Observable<Bool>
+        switch field {
+        case Lat:
+            textField = latituteTextField.rText
+            color = latitudeTextField.rTextColor
+            validator = viewModel.isValidLatitude
+        case Lon:
+            
+        }
+        let colorValidation = validator.skip(2)
             .map{(isValid: Bool) -> UIColor in
                 return isValid ? UIColor.blackColor() : UIColor.redColor()
             }
         
-        colorValidation.bindTo(latitudeTextField.rTextColor)
+        colorValidation.bindTo(color)
         colorValidation.bindTo(latitudeLabel.rTextColor)
         
-        viewModel.isValidLatitude.skip(2)
+        validator.skip(2)
             .map{(isValid: Bool) -> String in
                 return isValid ? "Latitude" : "-90 <= lat <= 90"
             }
-            .bindTo(latitudeLabel.rText)
+            .bindTo(textField)
     }
     
     func validateLong(){
