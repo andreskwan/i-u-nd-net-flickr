@@ -219,42 +219,38 @@ extension ViewController: UITextFieldDelegate {
         let validLabelText: String
         
         switch field {
-        case Lat:
-            textField = latituteTextField.rText
-            color = latitudeTextField.rTextColor
+        case .Lat:
+            textField = latitudeTextField.rText
+            textLabel = latitudeLabel.rText
+            textFieldColor = latitudeTextField.rTextColor
+            labelColor = latitudeLabel.rTextColor
             validator = viewModel.isValidLatitude
-        case Lon:
-            
+            validLabelText = "Latitude"
+            invalidLabelText = "-90 <= lat <= 90"
+        case .Long:
+            textField = longitudeTextField.rText
+            textLabel = longitudeLabel.rText
+            textFieldColor = longitudeTextField.rTextColor
+            labelColor = longitudeLabel.rTextColor
+            validator = viewModel.isValidLongitude
+            validLabelText = "Longitud"
+            invalidLabelText = "-180 <= long <= 180"
         }
+        
         let colorValidation = validator.skip(2)
             .map{(isValid: Bool) -> UIColor in
                 return isValid ? UIColor.blackColor() : UIColor.redColor()
-            }
+        }
         
-        colorValidation.bindTo(color)
-        colorValidation.bindTo(latitudeLabel.rTextColor)
+        colorValidation.bindTo(labelColor)
+        colorValidation.bindTo(textFieldColor)
         
         validator.skip(2)
             .map{(isValid: Bool) -> String in
-                return isValid ? "Latitude" : "-90 <= lat <= 90"
+                return isValid ? validLabelText : invalidLabelText
             }
-            .bindTo(textField)
+            .bindTo(textLabel)
     }
-    
-    func validateLong(){
-        let colorValidation = viewModel.isValidLongitude.skip(2)
-            .map{(isValid: Bool) -> UIColor in
-                return isValid ? UIColor.blackColor() : UIColor.redColor()}
-        
-        colorValidation.bindTo(longitudeTextField.rTextColor)
-        colorValidation.bindTo(longitudeLabel.rTextColor)
-        
-        viewModel.isValidLongitude.skip(2)
-            .map{(isValid: Bool) -> String in
-                return isValid ? "Latitude" : "-180 <= lat <= 180"}
-            .bindTo(longitudeLabel.rText)
-    }
-
 }
 
 // MARK: - ViewController (Configure UI)
