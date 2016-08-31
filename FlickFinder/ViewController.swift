@@ -32,20 +32,17 @@ class ViewController: UIViewController {
     
     // MARK: Reactive - Bindings
     func bindViewModel() {
+        //bidirectional binding
         viewModel.latitudeText.bindTo(latitudeTextField.rText)
         latitudeTextField.rText.bindTo(viewModel.latitudeText)
         viewModel.longitudeText.bindTo(longitudeTextField.rText)
         longitudeTextField.rText.bindTo(viewModel.longitudeText)
-        /*
-            this method should be in the ViewModel
-            - instead, here should be 
-         
-         */
-        viewModel.longitudeTextColor.bindTo(latitudeLabel.rTextColor)
-        viewModel.longitudeTextColor.bindTo(longitudeLabel.rTextColor)
         
-        viewModel.fields.forEach{ validateField($0) }
-      
+        //validation bindings
+        viewModel.latitudTextColor.bindTo(latitudeLabel.rTextColor)
+        viewModel.latitudTextColor.bindTo(latitudeTextField.rTextColor)
+        viewModel.longitudeTextColor.bindTo(longitudeLabel.rTextColor)
+        viewModel.longitudeTextColor.bindTo(longitudeTextField.rTextColor)
     }
     
     
@@ -217,8 +214,8 @@ extension ViewController: UITextFieldDelegate {
         return !(value < min || value > max)
     }
     
-    func validateField(field: Field){
-        let textField: Observable<String?>
+    func validateField(coordinate: Coordinate){
+//        let textField: Observable<String?>
         let textLabel: Observable<String?>
         let labelColor: Observable<UIColor?>
         let textFieldColor: Observable<UIColor?>
@@ -226,9 +223,8 @@ extension ViewController: UITextFieldDelegate {
         let invalidLabelText: String
         let validLabelText: String
         
-        switch field {
+        switch coordinate {
         case .Lat:
-            textField = latitudeTextField.rText
             textLabel = latitudeLabel.rText
             textFieldColor = latitudeTextField.rTextColor
             labelColor = latitudeLabel.rTextColor
@@ -236,7 +232,6 @@ extension ViewController: UITextFieldDelegate {
             validLabelText = "Latitude"
             invalidLabelText = "-90 <= lat <= 90"
         case .Long:
-            textField = longitudeTextField.rText
             textLabel = longitudeLabel.rText
             textFieldColor = longitudeTextField.rTextColor
             labelColor = longitudeLabel.rTextColor
