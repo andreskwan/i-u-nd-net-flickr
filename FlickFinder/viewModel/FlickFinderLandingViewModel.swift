@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveKit
 
-enum Field {
+enum Coordinate {
     case Lat
     case Long
 }
@@ -23,32 +23,45 @@ class FlicFinderLandingViewModel {
     let longitudeTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
     
     
-    var fields : [Field] = []
+    var coordinates : [Coordinate] = []
     
     init() {
-        fields = [Field.Lat, Field.Long]
-        /*
-         How to avoid repeting code?
-         what if I need to reuse a map
-         */
-        latitudeText.skip(2).observe{ (latitude) in
-            Observable(self.isCoordinateInsideInterval(latitude, interval: Constants.Flickr.SearchLatRange)).bindTo(self.isValidLatitude)
+        coordinates = [Coordinate.Lat, Coordinate.Long]
+        coordinates.forEach{isValid(coordinate: $0)}
+//        coordinates.forEach(<#T##body: (Coordinate) throws -> Void##(Coordinate) throws -> Void#>)
+        let colorValidation = isValidLongitude.skip(2)
+            .map{(isValid: Bool) -> UIColor in
+                return isValid ? UIColor.blackColor() : UIColor.redColor()
         }
         
-        longitudeText.skip(2).observe{ (longitude) in
-            Observable(self.isCoordinateInsideInterval(longitude, interval: Constants.Flickr.SearchLonRange)).bindTo(self.isValidLongitude)
-        }
+//        colorValidation.bindTo(labelColor)
+        colorValidation.bindTo(longitudeTextColor)
     }
     
-    func isCoordinateInsideInterval(coordinate: String?, interval: (min: Double, max: Double)) -> Bool {
-        guard let coordinate = coordinate where coordinate.characters.count > 0 else {
-            return false
+    func isValid(coordinate coordinate: Coordinate) {
+        let coordinateObs: Observable<String?>
+        let validator: Observable<Bool>
+        let interval: (min: Double, max: Double)
+        
+        switch coordinate {
+        case .Lat:
+            coordinateObs = latitudeText
+            validator = isValidLatitude
+            interval = Constants.Flickr.SearchLatRange
+        case .Long:
+            coordinateObs = longitudeText
+            validator = isValidLongitude
+            interval = Constants.Flickr.SearchLonRange
         }
-        print(coordinate)
-        let isLowValid = interval.min <= Double(coordinate)
-        let isHighValid = interval.max >= Double(coordinate)
-        return isLowValid && isHighValid
+
+        coordinateObs.map{ coordinate in
+            guard let coordinate = coordinate where coordinate.characters.count > 0 else {
+                return false
+            }
+            print(coordinate)
+            let isLowValid = interval.min <= Double(coordinate)!
+            let isHighValid = interval.max >= Double(coordinate)!
+            return isLowValid && isHighValid
+        }.bindTo(validator)
     }
-    
-    
 }
