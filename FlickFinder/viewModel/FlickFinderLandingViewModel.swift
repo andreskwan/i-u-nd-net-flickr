@@ -9,20 +9,23 @@
 import Foundation
 import ReactiveKit
 
+enum Field {
+    case Lat
+    case Long
+}
+
 class FlicFinderLandingViewModel {
     let latitudeText: Observable<String?> = Observable("")
     let longitudeText: Observable<String?> = Observable("")
     let isValidLatitude = Observable<Bool>(false)
     let isValidLongitude = Observable<Bool>(false)
     
-    enum Field {
-        case Lat
-        case Lon
-    }
+    
+    
     var fields : [Field] = []
     
     init() {
-        
+        fields = [Field.Lat, Field.Long]
         /*
          How to avoid repeting code?
          what if I need to reuse a map
