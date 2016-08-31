@@ -32,15 +32,15 @@ class FlicFinderLandingViewModel {
          what if I need to reuse a map
          */
         latitudeText.skip(2).observe{ (latitude) in
-            Observable(self.isValidCoordinate(latitude, interval: Constants.Flickr.SearchLatRange)).bindTo(self.isValidLatitude)
+            Observable(self.isCoordinateInsideInterval(latitude, interval: Constants.Flickr.SearchLatRange)).bindTo(self.isValidLatitude)
         }
         
         longitudeText.skip(2).observe{ (longitude) in
-            Observable(self.isValidCoordinate(longitude, interval: Constants.Flickr.SearchLonRange)).bindTo(self.isValidLongitude)
+            Observable(self.isCoordinateInsideInterval(longitude, interval: Constants.Flickr.SearchLonRange)).bindTo(self.isValidLongitude)
         }
     }
     
-    func isValidCoordinate(coordinate: String?, interval: (min: Double, max: Double)) -> Bool {
+    func isCoordinateInsideInterval(coordinate: String?, interval: (min: Double, max: Double)) -> Bool {
         guard let coordinate = coordinate where coordinate.characters.count > 0 else {
             return false
         }
