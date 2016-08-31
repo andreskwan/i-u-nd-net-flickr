@@ -36,6 +36,14 @@ class ViewController: UIViewController {
         latitudeTextField.rText.bindTo(viewModel.latitudeText)
         viewModel.longitudeText.bindTo(longitudeTextField.rText)
         longitudeTextField.rText.bindTo(viewModel.longitudeText)
+        /*
+            this method should be in the ViewModel
+            - instead, here should be 
+         
+         */
+        viewModel.longitudeTextColor.bindTo(latitudeLabel.rTextColor)
+        viewModel.longitudeTextColor.bindTo(longitudeLabel.rTextColor)
+        
         viewModel.fields.forEach{ validateField($0) }
       
     }

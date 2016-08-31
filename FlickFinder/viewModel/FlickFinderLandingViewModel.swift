@@ -19,7 +19,8 @@ class FlicFinderLandingViewModel {
     let longitudeText: Observable<String?> = Observable("")
     let isValidLatitude = Observable<Bool>(false)
     let isValidLongitude = Observable<Bool>(false)
-    
+    let latitudTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
+    let longitudeTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
     
     
     var fields : [Field] = []
