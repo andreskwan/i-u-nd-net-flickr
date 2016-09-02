@@ -37,6 +37,20 @@ class FlicFinderLandingViewModel {
     
     var coordinates : [Coordinate] = []
     
+    enum Fields : Int, Editable {
+        case LatitudeText
+        case LongitudeText
+        case LatitudeLabelText
+        case LongitudeLabelText
+        case IsValidLatitude //are these booleans needed?
+        case IsValidLongitude
+        case LatitudTextColor
+        case LongitudeTextColor
+        
+        func index() -> Int {
+            return self.rawValue
+        }
+    }
     
     init() {
         coordinates = [Coordinate.Lat, Coordinate.Long]
