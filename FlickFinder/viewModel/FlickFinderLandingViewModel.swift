@@ -14,6 +14,10 @@ enum Coordinate {
     case Long
 }
 
+public protocol Editable {
+    func index() -> Int
+}
+
 class FlicFinderLandingViewModel {
     //textFields
     let latitudeText: Observable<String?> = Observable("")
