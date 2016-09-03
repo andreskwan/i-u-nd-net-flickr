@@ -32,7 +32,7 @@ class FlicFinderLandingViewModel {
     let isValidLongitude = Observable<Bool>(false)
     
     //colors
-    let latitudTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
+    let latitudeTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
     let longitudeTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
     
     var coordinates : [Coordinate] = []
@@ -54,6 +54,8 @@ class FlicFinderLandingViewModel {
     
     init() {
         coordinates = [Coordinate.Lat, Coordinate.Long]
+        let propertiesArray = [latitudeText, longitudeText, latitudeLabelText, longitudeLabelText, isValidLatitude, isValidLongitude, latitudeTextColor, longitudeTextColor]
+        let fieldsArray: [Editable] = [Fields.LatitudeText, Fields.LongitudeText, Fields.LatitudeLabelText, Fields.LongitudeLabelText, Fields.IsValidLatitude, Fields.IsValidLongitude, Fields.LatitudTextColor, Fields.LongitudeTextColor]
         
         /*
          what if I create an array of observables, instead of an array of enum? 
@@ -146,7 +148,7 @@ class FlicFinderLandingViewModel {
         switch coordinate {
         case .Lat:
             textObs = latitudeLabelText
-            textColorObs = latitudTextColor
+            textColorObs = latitudeTextColor
             validator = isValidLatitude
             validLabelText = "Latitude"
             invalidLabelText = "-90 <= lat <= 90"
