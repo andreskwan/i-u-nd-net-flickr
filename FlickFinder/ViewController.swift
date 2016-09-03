@@ -39,13 +39,16 @@ class ViewController: UIViewController {
         longitudeTextField.rText.bindTo(viewModel.longitudeText)
         
         //validation bindings for colors
-        viewModel.latitudTextColor.bindTo(latitudeLabel.rTextColor)
-        viewModel.latitudTextColor.bindTo(latitudeTextField.rTextColor)
+        viewModel.latitudeTextColor.bindTo(latitudeLabel.rTextColor)
+        viewModel.latitudeTextColor.bindTo(latitudeTextField.rTextColor)
         viewModel.longitudeTextColor.bindTo(longitudeLabel.rTextColor)
         viewModel.longitudeTextColor.bindTo(longitudeTextField.rTextColor)
         
         viewModel.latitudeLabelText.bindTo(latitudeLabel.rText)
         viewModel.longitudeLabelText.bindTo(longitudeLabel.rText)
+        
+        //Disable button if not valid coordinates
+        viewModel.isValidLatitude.skip(2).bindTo(latLonSearchButton.rEnabled)
     }
     
     
