@@ -38,48 +38,96 @@ class FlicFinderLandingViewModel {
         coordinates = [Coordinate.Lat, Coordinate.Long]
         
         /*
-         what if I create an array of observables, instead of an array of enum? 
-         or a observableCollection? 
+         what if I create an array of observables, instead of an array of enum?
+         or a observableCollection?
          
-         How to create compositions 
+         How to create compositions
          Obs.map{func1()}.map{func2()}
          
          can be done?
          */
-        coordinates.forEach{isValid(coordinate: $0)}
-        coordinates.forEach{validateField($0)}
+//        coordinates.forEach{isValid(coordinate: $0)}
+//        coordinates.forEach{validateField($0)}
         
-        let colorValidation = isValidLongitude.skip(2)
+        longitudeText.skip(2).map{self.isValid(coordinate: $0, interval: Constants.Flickr.SearchLonRange)}
+            .bindTo(isValidLongitude)
+        latitudeText.skip(2).map{self.isValid(coordinate: $0, interval: Constants.Flickr.SearchLatRange)}
+            .bindTo(isValidLatitude)
+        
+        isValidLongitude.skip(2)
             .map{(isValid: Bool) -> UIColor in
                 return isValid ? UIColor.blackColor() : UIColor.redColor()
-        }
+        }.bindTo(longitudeTextColor)
         
         //        colorValidation.bindTo(labelColor)
-        colorValidation.bindTo(longitudeTextColor)
+        
+        isValidLatitude.skip(2)
+            .map{(isValid: Bool) -> UIColor in
+                return isValid ? UIColor.blackColor() : UIColor.redColor()
+        }.bindTo(latitudTextColor)
+        
+        let validLabelText = "Latitude"
+        let invalidLabelText = "-90 <= lat <= 90"
+        
+        isValidLatitude.skip(2)
+            .map{(isValid: Bool) -> String in
+                return isValid ? validLabelText : invalidLabelText
+            }.bindTo(latitudeLabelText)
+    }
+    
+//    func validateField(validator: Bool) -> UIColor {
+//        return validator ? UIColor.blackColor() : UIColor.redColor()
+//        
+//        //            .bindTo(textColorObs)
+//        
+//        //        validator.skip(2)
+//        //            .map{(isValid: Bool) -> String in
+//        //                return isValid ? validLabelText : invalidLabelText
+//        //            }
+//        //            .bindTo(textObs)
+//    }
+    
+    /*
+     FRP version
+     */
+    func isValid(coordinate text: String?, interval: (min:Double, max:Double)) -> Bool {
+        
+        guard let coordinateText = text where (coordinateText.characters.count > 0) && (coordinateText != "-") else {
+            return false
+        }
+        guard let coordinate = Double(coordinateText) else {
+            return false
+        }
+        print(coordinate)
+        let isLowValid = interval.min <= coordinate
+        let isHighValid = interval.max >= coordinate
+        
+        return isLowValid && isHighValid
     }
     
     /*
-     should return boolean 
+     should return boolean
      true for coordinate inside the valid interval
      false for outside
      
-     not should produce side effects like bindTo 
-     this is not a FRP 
+     not should produce side effects like bindTo
+     this is not a FRP
      
-     goal is to remove the binding 
+     goal is to remove the binding
      
-     use a map to associate this bolean 
+     use a map to associate this bolean
      
      func name
      - isCoordinateInsideValidInterval
-     - injection - params should be 
+     - injection - params should be
      - string for coordinate
      - corresponding interval
      */
-    func isValid(coordinate coordinate: Coordinate) {
+    func isValid(coordinate coordinate: Coordinate) -> Observable<Bool> {
         let coordinateObs: Observable<String?>
-        let validator: Observable<Bool>
+        var validator: Observable<Bool>
         let interval: (min: Double, max: Double)
+        let isValidCoordinate: Observable<Bool>
         
         switch coordinate {
         case .Lat:
@@ -92,17 +140,20 @@ class FlicFinderLandingViewModel {
             interval = Constants.Flickr.SearchLonRange
         }
         
-        coordinateObs.map{ coordinate in
+        coordinateObs.map{ coordinate -> Observable<Bool> in
             guard let coordinate = coordinate where coordinate.characters.count > 0 else {
-                return false
+                return Observable<Bool>(false)
             }
             print(coordinate)
             let isLowValid = interval.min <= Double(coordinate)!
             let isHighValid = interval.max >= Double(coordinate)!
-            return isLowValid && isHighValid
-            }.bindTo(validator)
+            
+            validator = Observable<Bool>(isLowValid && isHighValid)
+            return validator
+        }//.bindTo(validator)
+        
+        return validator
     }
-    
     
     /*
      params
@@ -115,7 +166,7 @@ class FlicFinderLandingViewModel {
      
      so should be two functions
      one that returns string
-     one that returns UIColor 
+     one that returns UIColor
      
      */
     func validateField(coordinate: Coordinate){
