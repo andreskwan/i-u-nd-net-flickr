@@ -30,6 +30,7 @@ class FlicFinderLandingViewModel {
     //boolean for validation
     let isValidLatitude = Observable<Bool>(false)
     let isValidLongitude = Observable<Bool>(false)
+    var isValidSearch = Observable<Bool>(false)
     
     //colors
     let latitudeTextColor: Observable<UIColor?> = Observable(UIColor.blackColor())
@@ -76,6 +77,10 @@ class FlicFinderLandingViewModel {
         
         //        colorValidation.bindTo(labelColor)
         colorValidation.bindTo(longitudeTextColor)
+        
+        //Dependency between fields 
+        //take a look to the age field
+        isValidLatitude.map{ $0 && self.isValidLongitude.value }.bindTo(isValidSearch)
     }
     
     /*
