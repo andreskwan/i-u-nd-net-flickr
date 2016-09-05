@@ -179,4 +179,13 @@ class FlicFinderLandingViewModel {
     }
     
     
+    func bboxString() -> String {
+        let latMin = Double(latitudeText.value!)! - 0.5
+        let latMax = Double(latitudeText.value!)! + 0.5
+        let longMin = Double(longitudeText.value!)! - 0.5
+        let longMax = Double(longitudeText.value!)! + 0.5
+        return "\(longMin), \(latMin), \(longMax), \(latMax), "
+    }
+    
+    
 }
