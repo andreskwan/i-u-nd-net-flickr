@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         viewModel.longitudeLabelText.bindTo(longitudeLabel.rText)
         
         //Disable button if not valid coordinates
-        viewModel.isValidLatitude.skip(2).bindTo(latLonSearchButton.rEnabled)
+        viewModel.isValidSearch.skip(2).bindTo(latLonSearchButton.rEnabled)
     }
     
     
