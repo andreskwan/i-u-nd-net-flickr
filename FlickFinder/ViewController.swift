@@ -113,7 +113,7 @@ class ViewController: UIViewController {
                  Constants.FlickrParameterKeys.Extras: Constants.FlickrParameterValues.MediumURL,
                  Constants.FlickrParameterKeys.Format: Constants.FlickrParameterValues.ResponseFormat,
                  Constants.FlickrParameterKeys.NoJSONCallback: Constants.FlickrParameterValues.DisableJSONCallback,
-                 Constants.FlickrParameterKeys.BoundingBox: bboxString() ]
+                 Constants.FlickrParameterKeys.BoundingBox: viewModel.bboxString() ]
             
             displayImageFromFlickrBySearch(methodParameters)
         }
@@ -122,11 +122,7 @@ class ViewController: UIViewController {
             photoTitleLabel.text = "Lat should be [-90, 90].\nLon should be [-180, 180]."
         }
     }
-    
-    private func bboxString() -> String {
-        return ""
-    }
-    
+        
     // MARK: Flickr API
     
     private func displayImageFromFlickrBySearch(methodParameters: [String:AnyObject]) {
