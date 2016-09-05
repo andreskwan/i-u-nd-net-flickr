@@ -180,10 +180,14 @@ class FlicFinderLandingViewModel {
     
     
     func bboxString() -> String {
-        let latMin = Double(latitudeText.value!)! - 0.5
-        let latMax = Double(latitudeText.value!)! + 0.5
-        let longMin = Double(longitudeText.value!)! - 0.5
-        let longMax = Double(longitudeText.value!)! + 0.5
+        guard let latValue = Double(latitudeText.value!), let longValue = Double(longitudeText.value!) else {
+            return "0,0,0,0"
+        }
+        let latMin = min(latValue + Constants.Flickr.SearchBBoxHalfHeight, Constants.Flickr.SearchLatRange.min)
+        let latMax = max(latValue + Constants.Flickr.SearchBBoxHalfHeight, Constants.Flickr.SearchLatRange.max)
+        let longMin = min(longValue - Constants.Flickr.SearchBBoxHalfWidth, Constants.Flickr.SearchLonRange.min)
+        let longMax = max(longValue + Constants.Flickr.SearchBBoxHalfWidth, Constants.Flickr.SearchLonRange.max)
+        
         return "\(longMin), \(latMin), \(longMax), \(latMax), "
     }
     
