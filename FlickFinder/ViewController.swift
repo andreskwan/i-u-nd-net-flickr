@@ -157,6 +157,12 @@ class ViewController: UIViewController {
                     return
             }
             
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                displayError("Error: No data was returned by the request!")
+                return
+            }
+            
             if ((error == nil)) {
                 if let data = data {
                     // serialize/parse data
