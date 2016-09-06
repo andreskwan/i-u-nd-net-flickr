@@ -163,18 +163,25 @@ class ViewController: UIViewController {
                 return
             }
             
-            if ((error == nil)) {
-                if let data = data {
-                    // serialize/parse data
-                    let parsedResult: AnyObject!
-                    do {
-                        parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-                        print(parsedResult)
-                    } catch {
-                        displayError("Could not parse the data as JSON: \(data)")
-                    }
-                }
+            let parsedResult: AnyObject!
+            
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                print(parsedResult)
+            } catch {
+                displayError("Could not parse the data as JSON: \(data)")
+                return
             }
+            
+            /* GUARD: Did Flickr return an error (stat != ok) */
+            guard let stat = parsedResult[Constants.FlickrResponseKeys.Status] as? String
+                where stat == Constants.FlickrResponseValues.OKStatus
+                else {
+                    displayError("Flickr api returned an error. See error code and message in \(parsedResult)")
+                    return
+            }
+            
+            
         }
         dataTask.resume()
     }
