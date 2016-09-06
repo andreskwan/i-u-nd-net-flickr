@@ -149,6 +149,14 @@ class ViewController: UIViewController {
                 return
             }
             
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode
+                where statusCode >= 200 && statusCode <= 299
+                else {
+                    displayError("Error: request status code returned other than 2xx!")
+                    return
+            }
+            
             if ((error == nil)) {
                 if let data = data {
                     // serialize/parse data
