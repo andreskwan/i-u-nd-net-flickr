@@ -196,6 +196,18 @@ class ViewController: UIViewController {
                 displayError("Error: Can not find key '\(Constants.FlickrResponseKeys.MediumURL)' in \(photoDictionary)")
                 return
             }
+            
+            // No need of returning from this error, instead add a title
+            let photoTitle = photoDictionary[Constants.FlickrResponseKeys.Title] as? String ?? "No title"
+            
+            let imageURL = NSURL(string: imageUrlString)
+            
+            //here is safe to unwrap imageURL with (!)
+            /* GUARD: Do we have a valid imageData? */
+            guard let imageData = NSData(contentsOfURL: imageURL!) else {
+                displayError("Error: Can not retireve image data from the url: \(imageURL)")
+                return
+            }
         }
         dataTask.resume()
     }
