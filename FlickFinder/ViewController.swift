@@ -130,6 +130,34 @@ class ViewController: UIViewController {
         print(flickrURLFromParameters(methodParameters))
         
         // TODO: Make request to Flickr!
+        let session = NSURLSession.sharedSession()
+        let request = NSURLRequest(URL: flickrURLFromParameters(methodParameters))
+        let dataTask = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            func displayError(error: String) {
+                print(error)
+                performUIUpdatesOnMain{
+                    self.setUIEnabled(true)
+                    self.photoTitleLabel.text = "No photo returned. Try again."
+                    self.photoImageView.image = nil
+                }
+            }
+            if ((error == nil)) {
+                if let data = data {
+                    let parsedResult: AnyObject!
+                    do {
+                        parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                        print(parsedResult)
+                    } catch {
+                        displayError("Could not parse the data as JSON: \(data)")
+                    }
+                }
+
+            } else {
+                displayError(error!.localizedDescription)
+            }
+        }
+        dataTask.resume()
     }
     
     // MARK: Helper for Creating a URL from Parameters
