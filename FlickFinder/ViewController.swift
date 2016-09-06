@@ -142,8 +142,16 @@ class ViewController: UIViewController {
                     self.photoImageView.image = nil
                 }
             }
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                displayError("Error: in your request: \(error)")
+                return
+            }
+            
             if ((error == nil)) {
                 if let data = data {
+                    // serialize/parse data
                     let parsedResult: AnyObject!
                     do {
                         parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
@@ -152,9 +160,6 @@ class ViewController: UIViewController {
                         displayError("Could not parse the data as JSON: \(data)")
                     }
                 }
-
-            } else {
-                displayError(error!.localizedDescription)
             }
         }
         dataTask.resume()
