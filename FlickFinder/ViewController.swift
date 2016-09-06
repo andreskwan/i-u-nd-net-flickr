@@ -188,6 +188,8 @@ class ViewController: UIViewController {
                     return
             }
             
+            let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
+            let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
             
         }
         dataTask.resume()
