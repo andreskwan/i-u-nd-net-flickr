@@ -208,6 +208,12 @@ class ViewController: UIViewController {
                 displayError("Error: Can not retireve image data from the url: \(imageURL)")
                 return
             }
+            
+            performUIUpdatesOnMain({ () -> Void in
+                self.photoImageView.image = UIImage(data: imageData)
+                self.photoTitleLabel.text = photoTitle
+                self.setUIEnabled(true)
+            })
         }
         dataTask.resume()
     }
