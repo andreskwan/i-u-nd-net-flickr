@@ -81,7 +81,6 @@ class ViewController: UIViewController {
         
         if !phraseTextField.text!.isEmpty {
             photoTitleLabel.text = "Searching..."
-            // TODO: Set necessary parameters!
             let methodParameters: [String: String!] =
                 [Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.SearchMethod,
                  Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey,
@@ -105,7 +104,6 @@ class ViewController: UIViewController {
         
         if isTextFieldValid(latitudeTextField, forRange: Constants.Flickr.SearchLatRange) && isTextFieldValid(longitudeTextField, forRange: Constants.Flickr.SearchLonRange) {
             photoTitleLabel.text = "Searching..."
-            // TODO: Set necessary parameters!
             let methodParameters: [String: String!] =
                 [Constants.FlickrParameterKeys.Method: Constants.FlickrParameterValues.SearchMethod,
                  Constants.FlickrParameterKeys.APIKey: Constants.FlickrParameterValues.APIKey,
@@ -129,7 +127,6 @@ class ViewController: UIViewController {
         
         print(flickrURLFromParameters(methodParameters))
         
-        // TODO: Make request to Flickr!
         let session = NSURLSession.sharedSession()
         let request = NSURLRequest(URL: flickrURLFromParameters(methodParameters))
         let dataTask = session.dataTaskWithRequest(request) { (data, response, error) in
@@ -183,37 +180,44 @@ class ViewController: UIViewController {
             
             /* GUARD: Are the "photos" and "photo" keys in our results? */
             guard let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String:AnyObject],
-                let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String:AnyObject]] else {
+                let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String:AnyObject]],
+                let numberOfPages = photosDictionary[Constants.FlickrResponseKeys.Pages] as? Int
+            else {
                     displayError("Cannot find keys '\(Constants.FlickrResponseKeys.Photos)' and '\(Constants.FlickrResponseKeys.Photo)' in \(parsedResult) ")
                     return
             }
+
+            print("numberOfPages: \(numberOfPages)")
+            // obtain a ramdon page
+            let randomPage = Int(arc4random_uniform(UInt32(numberOfPages)))
+            print("randomPage: \(randomPage)")
             
-            let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
-            let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
-            
-            /* GUARD: Does our photo have a key for 'url_m'? */
-            guard let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String else {
-                displayError("Error: Can not find key '\(Constants.FlickrResponseKeys.MediumURL)' in \(photoDictionary)")
-                return
-            }
-            
-            // No need of returning from this error, instead add a title
-            let photoTitle = photoDictionary[Constants.FlickrResponseKeys.Title] as? String ?? "No title"
-            
-            let imageURL = NSURL(string: imageUrlString)
-            
-            //here is safe to unwrap imageURL with (!)
-            /* GUARD: Do we have a valid imageData? */
-            guard let imageData = NSData(contentsOfURL: imageURL!) else {
-                displayError("Error: Can not retireve image data from the url: \(imageURL)")
-                return
-            }
-            
-            performUIUpdatesOnMain({ () -> Void in
-                self.photoImageView.image = UIImage(data: imageData)
-                self.photoTitleLabel.text = photoTitle
-                self.setUIEnabled(true)
-            })
+//            let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
+//            let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
+//            
+//            /* GUARD: Does our photo have a key for 'url_m'? */
+//            guard let imageUrlString = photoDictionary[Constants.FlickrResponseKeys.MediumURL] as? String else {
+//                displayError("Error: Can not find key '\(Constants.FlickrResponseKeys.MediumURL)' in \(photoDictionary)")
+//                return
+//            }
+//            
+//            // No need of returning from this error, instead add a title
+//            let photoTitle = photoDictionary[Constants.FlickrResponseKeys.Title] as? String ?? "No title"
+//            
+//            let imageURL = NSURL(string: imageUrlString)
+//            
+//            //here is safe to unwrap imageURL with (!)
+//            /* GUARD: Do we have a valid imageData? */
+//            guard let imageData = NSData(contentsOfURL: imageURL!) else {
+//                displayError("Error: Can not retireve image data from the url: \(imageURL)")
+//                return
+//            }
+//            
+//            performUIUpdatesOnMain({ () -> Void in
+//                self.photoImageView.image = UIImage(data: imageData)
+//                self.photoTitleLabel.text = photoTitle
+//                self.setUIEnabled(true)
+//            })
         }
         dataTask.resume()
     }
