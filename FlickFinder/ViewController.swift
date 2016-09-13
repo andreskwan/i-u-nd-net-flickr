@@ -233,7 +233,7 @@ class ViewController: UIViewController {
             
             performUIUpdatesOnMain({ () -> Void in
                 self.photoImageView.image = UIImage(data: imageData)
-                self.photoTitleLabel.text = photoTitle
+                self.photoTitleLabel.text = photoTitle ?? "No title!!!"
                 self.setUIEnabled(true)
             })
         }
