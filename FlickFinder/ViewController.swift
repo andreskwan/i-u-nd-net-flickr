@@ -181,15 +181,16 @@ class ViewController: UIViewController {
             /* GUARD: Are the "photos" and "photo" keys in our results? */
             guard let photosDictionary = parsedResult[Constants.FlickrResponseKeys.Photos] as? [String:AnyObject],
                 let photoArray = photosDictionary[Constants.FlickrResponseKeys.Photo] as? [[String:AnyObject]],
-                let numberOfPages = photosDictionary[Constants.FlickrResponseKeys.Pages] as? Int
+                let totalPages = photosDictionary[Constants.FlickrResponseKeys.Pages] as? Int
             else {
                     displayError("Cannot find keys '\(Constants.FlickrResponseKeys.Photos)' and '\(Constants.FlickrResponseKeys.Photo)' in \(parsedResult) ")
                     return
             }
 
-            print("numberOfPages: \(numberOfPages)")
+            print("numberOfPages: \(totalPages)")
+            let limitOfPages = min(totalPages, 40)
             // obtain a ramdon page
-            let randomPage = Int(arc4random_uniform(UInt32(numberOfPages)))
+            let randomPage = Int(arc4random_uniform(UInt32(limitOfPages)))
             print("randomPage: \(randomPage)")
             
 //            let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
