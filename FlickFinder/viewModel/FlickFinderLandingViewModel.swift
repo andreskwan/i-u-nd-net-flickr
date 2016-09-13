@@ -55,8 +55,22 @@ class FlicFinderLandingViewModel {
     
     init() {
         coordinates = [Coordinate.Lat, Coordinate.Long]
-        let propertiesArray = [latitudeText, longitudeText, latitudeLabelText, longitudeLabelText, isValidLatitude, isValidLongitude, latitudeTextColor, longitudeTextColor]
-        let fieldsArray: [Editable] = [Fields.LatitudeText, Fields.LongitudeText, Fields.LatitudeLabelText, Fields.LongitudeLabelText, Fields.IsValidLatitude, Fields.IsValidLongitude, Fields.LatitudTextColor, Fields.LongitudeTextColor]
+        let propertiesArray = [latitudeText,
+                               longitudeText,
+                               latitudeLabelText,
+                               longitudeLabelText,
+                               isValidLatitude,
+                               isValidLongitude,
+                               latitudeTextColor,
+                               longitudeTextColor]
+        let fieldsArray: [Editable] = [Fields.LatitudeText,
+                                       Fields.LongitudeText,
+                                       Fields.LatitudeLabelText,
+                                       Fields.LongitudeLabelText,
+                                       Fields.IsValidLatitude,
+                                       Fields.IsValidLongitude,
+                                       Fields.LatitudTextColor,
+                                       Fields.LongitudeTextColor]
         
         /*
          what if I create an array of observables, instead of an array of enum? 
